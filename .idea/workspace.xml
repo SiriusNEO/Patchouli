@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0043e9b6-3c8c-4c9a-aca8-425f6b563329" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1kKLmjIs1ugUqY8c0qsgaGSsQjQ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="settings.editor.selected.configurable" value="CPPToolchains" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0043e9b6-3c8c-4c9a-aca8-425f6b563329" name="Default Changelist" comment="" />
+      <created>1605444496465</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1605444496465</updated>
+      <workItem from="1605444498537" duration="4422000" />
+      <workItem from="1605454457405" duration="141000" />
+      <workItem from="1605454765210" duration="218000" />
+      <workItem from="1605455137385" duration="2066000" />
+      <workItem from="1605457214379" duration="143000" />
+      <workItem from="1605457419559" duration="529000" />
+      <workItem from="1605457959434" duration="161000" />
+      <workItem from="1605507353860" duration="6476000" />
+      <workItem from="1605594976819" duration="36000" />
+      <workItem from="1605597510514" duration="19282000" />
+      <workItem from="1605708506530" duration="6689000" />
+      <workItem from="1605761188126" duration="818000" />
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="574" y="149" key="#SSH_Configurations" timestamp="1605454938572">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="459" y="118" key="#SSH_Configurations/0.0.1536.824@0.0.1536.824" timestamp="1605449184347" />
+    <state x="574" y="149" key="#SSH_Configurations/0.0.1920.1040@0.0.1920.1040" timestamp="1605454938572" />
+    <state x="614" y="143" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605457970681">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="223" y="70" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1605449232390" />
+    <state x="614" y="143" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1605457970681" />
+    <state x="663" y="318" key="FileChooserDialogImpl" timestamp="1605445883330">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="663" y="318" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1605445883330" />
+    <state width="1877" height="185" key="GridCell.Tab.0.bottom" timestamp="1605717315074">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1493" height="195" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1605510696843" />
+    <state width="1877" height="185" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1605717315074" />
+    <state width="1877" height="185" key="GridCell.Tab.0.center" timestamp="1605717315073">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1493" height="195" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1605510696843" />
+    <state width="1877" height="185" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1605717315073" />
+    <state width="1877" height="185" key="GridCell.Tab.0.left" timestamp="1605717315073">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1493" height="195" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1605510696843" />
+    <state width="1877" height="185" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1605717315073" />
+    <state width="1877" height="185" key="GridCell.Tab.0.right" timestamp="1605717315074">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1493" height="195" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1605510696843" />
+    <state width="1877" height="185" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1605717315074" />
+    <state x="386" y="117" key="SettingsEditor" timestamp="1605508368912">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="386" y="117" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1605508368912" />
+    <state x="786" y="147" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1605457992359" />
+  </component>
+</project>

@@ -18,7 +18,7 @@
 
 const int ISBNMaxl = 21;
 const int BookMaxl = 61;
-const int MaxQ = 100002;
+const int MaxQ = 1000002;
 
 class Book {
     public:
