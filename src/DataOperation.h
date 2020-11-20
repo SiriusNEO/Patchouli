@@ -18,7 +18,7 @@
 
 const int ISBNMaxl = 21;
 const int BookMaxl = 61;
-const int MaxQ = 1000002;
+const int INVA = -2147483643;
 
 class Book {
     public:
@@ -34,7 +34,7 @@ class DataOperation {
     private:
         int selectBook;
         int tot;
-        double bill[MaxQ];
+        std::vector<double> bill;
         std::fstream dbFile, billFile;
         const std::string dbFileName, billFileName;
         HashTable ISBNHashTable, nameHashTable, authorHashTable, keywordHashTable;
@@ -45,9 +45,9 @@ class DataOperation {
         int Save(Book book);
         void SaveIn(Book book, int offset);
         Book Load(int offset);
-        //void Print();
         int bookadd(const std::string& ISBN, const std::string& name, const std::string& author, const std::string& keyword, double price, int quantity);
         int select(const std::string& ISBN, int authority);
+        void updateselect(int newSelect);
         int modify(std::string ISBN, std::string name, std::string author, std::string keyword, double price, int authority);
         void import(int quantity, double cost_price, int authority);
         void show(const std::string& ISBN, const std::string& name, const std::string& author, const std::string& keyword, int authority);

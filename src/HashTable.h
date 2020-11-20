@@ -12,11 +12,13 @@
 #include <string>
 
 const int BLOCK_SIZE = 1024;
+const unsigned long long Mod1 = 1e9+7;
+const unsigned long long Mod2 = 1e9+9;
 
 class Node {
     public:
         int offset;
-        unsigned long long hash;
+        unsigned long long hash, hash1;
         Node();
         bool operator < (const Node &node) const;
         bool operator == (const Node &node) const;
@@ -48,8 +50,8 @@ class HashTable {
         void SplitBlock(int rank, int pos, Node node);
         void MergeBlock(int rank);
         void AddNode(Node node);
-        std::vector<int> FindNode(unsigned long long hash);
-        unsigned long long BKDRHash(const char *);
+        std::vector<int> FindNode(unsigned long long hash, unsigned long long hash1);
+        unsigned long long BKDRHash(const char *, int typ);
         void Insert(int offset, const char *key);
         std::vector<int> Find(const char *key);
 };

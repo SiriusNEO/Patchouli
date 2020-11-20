@@ -6,6 +6,8 @@
 
 #include "DataOperation.h"
 
+#define InvalidReturn {puts("Invalid");return;}
+
 Book::Book() {
     ISBN = name = author = keyword = "";
     price = 0.0, quantity = 0, isDeleted = false;
@@ -30,15 +32,18 @@ DataOperation::DataOperation(): ISBNHashTable("ISBNindex.bin"), nameHashTable("n
     }
     billFile.seekg(0, std::ios::beg);
     billFile.read(reinterpret_cast<char *>(&tot), sizeof(int));
-    for (int i = 1; i <= tot; ++i)
-        billFile.read(reinterpret_cast<char *>(&bill[i]), sizeof(double));
+    for (int i = 1; i <= tot; ++i) {
+        double tmp;
+        billFile.read(reinterpret_cast<char *>(&tmp), sizeof(double));
+        bill.push_back(tmp);
+    }
     billFile.close();
 }
 DataOperation::~DataOperation() {
     billFile.open(billFileName, std::ios::ate | std::ios::in | std::ios::out | std::ios::binary);
     billFile.seekp(0, std::ios::beg);
     billFile.write(reinterpret_cast<char *>(&tot), sizeof(int));
-    for (int i = 1; i <= tot; ++i)
+    for (int i = 0; i < tot; ++i)
         billFile.write(reinterpret_cast<char *>(&bill[i]), sizeof(double));
     billFile.close();
 }
@@ -96,22 +101,14 @@ Book DataOperation::Load(int offset) {
     dbFile.close();
     return tmp;
 }
-/*
- * 调试用
-void DataOperation::Print() {
-    if (selectBook >= 0) Load(selectBook).Print();
-}
- */
 int DataOperation::select(const std::string &ISBN, int authority) {
     if (authority < 3) return -1;
     std::vector<int> books =  ISBNHashTable.Find(ISBN.c_str());
-    bool isFound = false; Book tmp; int i;
-    for (i = 0; i< books.size(); ++i) {
-        tmp = Load(books[i]);
-        if (!tmp.isDeleted) {isFound = true; break;}
-    }
-    if (!isFound) return selectBook = bookadd(ISBN, "", "", "", 0, 0);
-    return selectBook = books[i];
+    for (int i : books) if (!Load(i).isDeleted) return i;
+    return bookadd(ISBN, "", "", "", 0, 0);
+}
+void DataOperation::updateselect(int newSelect) {
+    selectBook = newSelect;
 }
 int DataOperation::bookadd(const std::string& ISBN, const std::string& name, const std::string& author, const std::string& keyword, double price, int quantity) {
     Book newBook;
@@ -120,75 +117,59 @@ int DataOperation::bookadd(const std::string& ISBN, const std::string& name, con
     int i, j;
     for (i = 0, j = 0; i < keyword.size(); ++i) {
         if (keyword[i] == '|') {
-            //keywordHashTable.Insert(savePos,keyword.substr(j, i-j).c_str());
             keywords.push_back(keyword.substr(j, i-j));
             j = i + 1;
         }
     }
     if (!keyword.empty()) keywords.push_back(keyword.substr(j, keyword.size()-j));
-    for (int i = 0 ; i < keywords.size(); ++i)
-        for (int j = i + 1; j < keywords.size(); ++j)
-            if (keywords[i] == keywords[j]) {
-                return -1;
-            }
-    //如果关键字重复，加书失败，返回-1，不进行存储操作
+    for (i = 0 ; i < keywords.size(); ++i)
+        for (j = i + 1; j < keywords.size(); ++j)
+            if (keywords[i] == keywords[j]) return -1;  //如果关键字重复，加书失败，返回-1，不进行存储操作
     int savePos = Save(newBook);
     ISBNHashTable.Insert(savePos, newBook.ISBN.c_str());
     nameHashTable.Insert(savePos, newBook.name.c_str());
     authorHashTable.Insert(savePos, newBook.author.c_str());
-    for (auto kk : keywords) keywordHashTable.Insert(savePos,kk.c_str());
+    for (const std::string& kk : keywords) keywordHashTable.Insert(savePos,kk.c_str());
     return savePos;
 }
 int DataOperation::modify(std::string ISBN, std::string name, std::string author, std::string keyword, double price, int authority) {
-    if (authority < 3 || selectBook == -1) return -1;
+    if (authority < 3 || selectBook == -1 || price == double(INVA)) return -1;
     Book tmp1 = Load(selectBook);                                          //找当前选的书
-    if (ISBN.empty())  ISBN = tmp1.ISBN;                                   //ISBN为空，则把当前选的ISBN赋上去
+    if (ISBN == "$%default")  ISBN = tmp1.ISBN;                                   //无ISBN，则把当前选的ISBN赋上去
     else {
         std::vector<int> books =  ISBNHashTable.Find(ISBN.c_str());
-        bool isFound = false; Book tmp; int i;
-        for (i = 0; i< books.size(); ++i) {
-            tmp = Load(books[i]);
-            if (!tmp.isDeleted) {isFound = true; break;}
-        }
-        if (isFound) return -1;                                           //已经存在该ISBN
-                                                                          //不存在该ISBN，可以添加
+        for (int i : books) if (!Load(i).isDeleted) return -1;
     }
-    if (name.empty())  name = tmp1.name;
-    if (author.empty()) author = tmp1.author;
-    if (keyword.empty()) keyword = tmp1.keyword;
+    if (name == "$%default")  name = tmp1.name;
+    if (author == "$%default") author = tmp1.author;
+    if (keyword == "$%default") keyword = tmp1.keyword;
     if (price == -1) price = tmp1.price;
-    int seltmp = bookadd(ISBN, name, author, keyword, price, tmp1.quantity);
-    if (seltmp != -1) {                                                      //加书没有失败
+    int retPos = bookadd(ISBN, name, author, keyword, price, tmp1.quantity);
+    if (retPos != -1) {                                                      //加书没有失败
         tmp1.isDeleted = true;                                               //删掉当前的书
         SaveIn(tmp1, selectBook);
-        return selectBook = seltmp;
+        return retPos;
     }
     else return -1;
 }
 void DataOperation::import(int quantity, double cost_price, int authority) {
-    if (authority < 3 || selectBook == -1) {
-        puts("Invalid");
-        return ;
-    }
+    if (authority < 3 || selectBook == -1 || quantity == INVA || cost_price == double(INVA)) InvalidReturn
     Book tmp = Load(selectBook);
     tmp.quantity += quantity;
     SaveIn(tmp, selectBook);
-    bill[++tot] = -cost_price;
+    bill.push_back(-cost_price), ++tot;
 }
 void DataOperation::show(const std::string& ISBN, const std::string& name, const std::string& author, const std::string& keyword, int authority) {
-    if (!authority) {
-        puts("Invalid");
-        return ;
-    }
+    if (!authority) InvalidReturn
     std::vector<int> list, tmp, vand;
     std::vector<Book> books;
     bool allEmpty = true;
-    if (!ISBN.empty()) {
+    if (ISBN != "$%default") {
         tmp = ISBNHashTable.Find(ISBN.c_str());
         list = tmp;
         allEmpty = false;
     }
-    if (!name.empty()) {
+    if (name != "$%default") {
         tmp = nameHashTable.Find(name.c_str());
         if (allEmpty) list = tmp;
         else {
@@ -197,7 +178,7 @@ void DataOperation::show(const std::string& ISBN, const std::string& name, const
         }
         allEmpty = false;
     }
-    if (!author.empty()) {
+    if (author != "$%default") {
         tmp = authorHashTable.Find(author.c_str());
         if (allEmpty) list = tmp;
         else {
@@ -206,7 +187,7 @@ void DataOperation::show(const std::string& ISBN, const std::string& name, const
         }
         allEmpty = false;
     }
-    if (!keyword.empty()) {
+    if (keyword != "$%default") {
         tmp = keywordHashTable.Find(keyword.c_str());
         if (allEmpty) list = tmp;
         else {
@@ -245,42 +226,30 @@ void DataOperation::show(const std::string& ISBN, const std::string& name, const
     }
     std::sort(books.begin(), books.end(), [](const Book& b1, const Book& b2){return b1.ISBN < b2.ISBN;});
     if (books.empty()) puts("");
-    else {
-        for (const Book& ibook : books) ibook.Print();
-    }
+    else for (const Book& ibook : books) ibook.Print();
 }
 void DataOperation::buy(const std::string& ISBN, int quantity, int authority) {
-    if (!authority) {
-        puts("Invalid");
-        return;
-    }
+    if (!authority || quantity == INVA) InvalidReturn
     std::vector<int> books =  ISBNHashTable.Find(ISBN.c_str());
-    bool isFound = false; Book tmp; int i;
-    for (i = 0; i< books.size(); ++i) {
-        tmp = Load(books[i]);
-        if (!tmp.isDeleted) {isFound = true; break;}
+    Book tmp;
+    for (int i : books) {
+        tmp = Load(i);
+        if (!tmp.isDeleted) {
+            if (tmp.quantity < quantity) InvalidReturn
+            tmp.quantity -= quantity;
+            SaveIn(tmp, i);
+            bill.push_back(tmp.price*quantity), ++tot;
+            std::cout << std::fixed << std::setprecision(2) << tmp.price*quantity << '\n';
+            return;
+        }
     }
-    if (!isFound) {
-        puts("Invalid");
-        return ;
-    }
-    if (tmp.quantity < quantity) {
-        puts("Invalid");
-        return ;
-    }
-    tmp.quantity -= quantity;
-    SaveIn(tmp, books[i]);
-    bill[++tot] = tmp.price*quantity;
-    std::cout << std::fixed << std::setprecision(2) << tmp.price*quantity << '\n';
+    InvalidReturn
 }
 void DataOperation::show_finance(int time, int authority) {
-    if (authority < 7 || time > tot) {
-        puts("Invalid");
-        return ;
-    }
+    if (authority < 7 || time > tot || time == INVA) InvalidReturn
     if (time == -1) time = tot;
     double intot = 0, outtot = 0;
-    for (int i = tot-time+1; i <= tot; ++i)
+    for (int i = tot-time; i < tot; ++i)
         (bill[i] > 0) ? intot += bill[i] : outtot -= bill[i];
     std::cout << std::fixed << std::setprecision(2) << "+ " << intot << " - " << outtot << '\n';
 }

@@ -24,7 +24,6 @@ class User {
         bool isDeleted;
         int selectBook;
         User();
-        void Print() const;
 };
 
 class UserManager {
@@ -39,9 +38,9 @@ class UserManager {
         int Save(User user);
         void SaveIn(User user, int offset);
         User Load(int offset);
-        void Print() const;
         User& getNowUser();
         int getAuthority();
+        void updateselect(int oldSelect, int newSelect);
         void su(const std::string& id, const std::string& passwd);
         void logout(int authority);
         void useradd(const std::string& id, const std::string& passwd, int authority, const std::string& name, int myauthority);

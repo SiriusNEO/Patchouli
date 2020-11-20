@@ -9,7 +9,7 @@
 
 Node::Node() {
     offset = -1;
-    hash = 0ll;
+    hash = 0ll, hash1 = 0ll;
 }
 bool Node::operator < (const Node &node) const {
     return hash < node.hash;
@@ -151,7 +151,7 @@ void HashTable::AddNode(Node node) {
         pointer = Load<int>(pointer), ++rank;
     }
 }
-std::vector<int> HashTable::FindNode(unsigned long long hash) {
+std::vector<int> HashTable::FindNode(unsigned long long hash, unsigned long long hash1) {
     std::vector<int> returnList;
     int pointer = first;
     if (pointer != -1) {
@@ -162,24 +162,26 @@ std::vector<int> HashTable::FindNode(unsigned long long hash) {
     while (pointer != -1 && tmp.nodes[0].hash <= hash) {
         tmp = Load<Block>(pointer);
         for (int i = 0; i < tmp.nodeNum; ++i)
-            if (tmp.nodes[i].hash == hash) returnList.push_back(tmp.nodes[i].offset);
+            if (tmp.nodes[i].hash == hash && tmp.nodes[i].hash1 == hash1) returnList.push_back(tmp.nodes[i].offset);
         pointer = Load<int>(pointer);
     }
     return returnList;
 }
-unsigned long long HashTable::BKDRHash(const char *str) {
-    unsigned long long seed = 786433, hash = 0;
+unsigned long long HashTable::BKDRHash(const char *str, int typ) {
+    unsigned long long seed, hash = 0, Mod;
+    seed = (typ) ? 131 : 13131;
+    Mod = (typ) ? Mod1 : Mod2;
     while (*str) {
-        hash = hash * seed + (*str++);
+        hash = (hash * seed + (*str++)) % Mod;
     }
     return hash;
 }
 void HashTable::Insert(int offset, const char* key) {
     Node tmp;
-    tmp.offset = offset, tmp.hash = BKDRHash(key);
+    tmp.offset = offset, tmp.hash = BKDRHash(key, 0), tmp.hash1 = BKDRHash(key, 1);
     AddNode(tmp);
 }
 std::vector<int> HashTable::Find(const char* key) {
-    unsigned long long hash = BKDRHash(key);
-    return FindNode(hash);
+    unsigned long long hash = BKDRHash(key, 0), hash1 = BKDRHash(key, 1);
+    return FindNode(hash, hash1);
 }

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g  -static-libgcc -static-libstdc++ CMakeFiles/code.dir/src/main.cpp.o CMakeFiles/code.dir/src/UserManager.cpp.o CMakeFiles/code.dir/src/HashTable.cpp.o CMakeFiles/code.dir/src/DataOperation.cpp.o  -o code 
