@@ -81,62 +81,64 @@ void UserManager::updateselect(int oldSelect, int newSelect) {
         if (iuser.selectBook == oldSelect) iuser.selectBook = newSelect;
     }
 }
-void UserManager::su(const std::string& id, const std::string& passwd) {
+int UserManager::su(const std::string& id, const std::string& passwd) {
     std::vector <int> users = idHashTable.Find(id.c_str());
     User tmp;
     for (int i : users) {
         tmp = Load(i);
         if (!tmp.isDeleted) {
-            if ((getAuthority() < tmp.authority && passwd.empty()) || (!passwd.empty() && tmp.passwd != passwd)) InvalidReturn
+            if ((getAuthority() < tmp.authority && passwd.empty()) || (!passwd.empty() && tmp.passwd != passwd)) return -1;
             userStack.push_back(tmp);
-            return;
+            return 0;
         }
     }
-    InvalidReturn
+    return -1;
 }
-void UserManager::logout(int authority) {
-    if (!authority) InvalidReturn
+int UserManager::logout(int authority) {
+    if (!authority) return -1;
     userStack.pop_back();
+    return 0;
 }
-void UserManager::useradd(const std::string& id, const std::string& passwd, int authority, const std::string& name, int myauthority) {
-    if (myauthority <= authority) InvalidReturn
+int UserManager::useradd(const std::string& id, const std::string& passwd, int authority, const std::string& name, int myauthority) {
+    if (myauthority <= authority) return -1;
     std::vector <int> users = idHashTable.Find(id.c_str());
-    for (int i : users) if (!Load(i).isDeleted) InvalidReturn
+    for (int i : users) if (!Load(i).isDeleted) return -1;
     User newUser;
     newUser.id = id, newUser.passwd = passwd, newUser.authority = authority, newUser.name = name;
     idHashTable.Insert(Save(newUser), id.c_str());
+    return 0;
 }
-void UserManager::reg(const std::string& id, const std::string& passwd, const std::string& name) {
-    useradd(id, passwd, 1, name, 7);
+int UserManager::reg(const std::string& id, const std::string& passwd, const std::string& name) {
+    return useradd(id, passwd, 1, name, 7);
 }
-void UserManager::del(const std::string& id, int authority) {
-    if (authority < 7) InvalidReturn
+int UserManager::del(const std::string& id, int authority) {
+    if (authority < 7) return -1;
     std::vector <int> users = idHashTable.Find(id.c_str());
     User tmp;
     int i;
     for (i = 0; i< users.size(); ++i) {
         tmp = Load(users[i]);
         if (!tmp.isDeleted) {
-            for (const User &iuser : userStack) if (tmp.id == iuser.id) InvalidReturn
+            for (const User &iuser : userStack) if (tmp.id == iuser.id) return -1;
             tmp.isDeleted = true;
             SaveIn(tmp, users[i]);
-            return;
+            return 0;
         }
     }
-    InvalidReturn
+    return -1;
 }
-void UserManager::modify_passwd(const std::string& id, const std::string& newpasswd, int authority, const std::string& oldpasswd) {
-    if (!authority) InvalidReturn
+int UserManager::modify_passwd(const std::string& id, const std::string& newpasswd, int authority, const std::string& oldpasswd) {
+    if (!authority) return -1;
     std::vector <int> users = idHashTable.Find(id.c_str());
     User tmp;
     for (int i : users) {
         tmp = Load(i);
         if (!tmp.isDeleted) {
-            if (oldpasswd != "I_am_root" && oldpasswd != tmp.passwd) InvalidReturn
+            if (oldpasswd != "I_am_root" && oldpasswd != tmp.passwd) return -1;
             tmp.passwd = newpasswd;
             SaveIn(tmp, users[0]);
-            return;
+            return 0;
         }
     }
-    InvalidReturn
+    return -1;
 }

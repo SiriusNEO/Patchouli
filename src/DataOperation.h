@@ -34,14 +34,13 @@ class DataOperation {
     private:
         int selectBook;
         int tot;
-        std::vector<double> bill;
         std::fstream dbFile, billFile;
         const std::string dbFileName, billFileName;
         HashTable ISBNHashTable, nameHashTable, authorHashTable, keywordHashTable;
 
     public:
+        std::vector<double> bill;
         DataOperation();
-        ~DataOperation();
         int Save(Book book);
         void SaveIn(Book book, int offset);
         Book Load(int offset);
@@ -49,10 +48,11 @@ class DataOperation {
         int select(const std::string& ISBN, int authority);
         void updateselect(int newSelect);
         int modify(std::string ISBN, std::string name, std::string author, std::string keyword, double price, int authority);
-        void import(int quantity, double cost_price, int authority);
-        void show(const std::string& ISBN, const std::string& name, const std::string& author, const std::string& keyword, int authority);
-        void buy(const std::string& ISBN, int quantity, int authority);
-        void show_finance(int time, int authority);
+        int import(int quantity, double cost_price, int authority);
+        int show(const std::string& ISBN, const std::string& name, const std::string& author, const std::string& keyword, int authority);
+        int buy(const std::string& ISBN, int quantity, int authority);
+        int show_finance(int time, int authority);
+        int report_finance(int authority);
 };
 
 #endif //BOOKSTORESYSTEM_DATAOPERATION_H

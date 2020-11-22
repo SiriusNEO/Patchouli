@@ -41,12 +41,12 @@ class UserManager {
         User& getNowUser();
         int getAuthority();
         void updateselect(int oldSelect, int newSelect);
-        void su(const std::string& id, const std::string& passwd);
-        void logout(int authority);
-        void useradd(const std::string& id, const std::string& passwd, int authority, const std::string& name, int myauthority);
-        void reg(const std::string& id, const std::string& passwd, const std::string& name);
-        void del(const std::string& id, int authority);
-        void modify_passwd(const std::string& id, const std::string& newpasswd, int authority, const std::string& oldpasswd = "I_am_root");
+        int su(const std::string& id, const std::string& passwd);
+        int logout(int authority);
+        int useradd(const std::string& id, const std::string& passwd, int authority, const std::string& name, int myauthority);
+        int reg(const std::string& id, const std::string& passwd, const std::string& name);
+        int del(const std::string& id, int authority);
+        int modify_passwd(const std::string& id, const std::string& newpasswd, int authority, const std::string& oldpasswd = "I_am_root");
 };
 
 #endif //BOOKSTORESYSTEM_USERMANAGER_H
