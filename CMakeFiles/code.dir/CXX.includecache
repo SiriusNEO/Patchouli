@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/mnt/c/Users/17138/Desktop/Sirius/Programming/BookstoreSystem/src/DataOperation.cpp
-DataOperation.h
-/mnt/c/Users/17138/Desktop/Sirius/Programming/BookstoreSystem/src/DataOperation.h
-
 /mnt/c/Users/17138/Desktop/Sirius/Programming/BookstoreSystem/src/DataOperation.h
 iostream
 -
@@ -34,5 +30,31 @@ fstream
 vector
 -
 string
+-
+
+/mnt/c/Users/17138/Desktop/Sirius/Programming/BookstoreSystem/src/UserManager.h
+HashTable.h
+/mnt/c/Users/17138/Desktop/Sirius/Programming/BookstoreSystem/src/HashTable.h
+DataOperation.h
+/mnt/c/Users/17138/Desktop/Sirius/Programming/BookstoreSystem/src/DataOperation.h
+fstream
+-
+string
+-
+vector
+-
+iostream
+-
+cstring
+-
+
+/mnt/c/Users/17138/Desktop/Sirius/Programming/BookstoreSystem/src/main.cpp
+iostream
+-
+HashTable.h
+/mnt/c/Users/17138/Desktop/Sirius/Programming/BookstoreSystem/src/HashTable.h
+UserManager.h
+/mnt/c/Users/17138/Desktop/Sirius/Programming/BookstoreSystem/src/UserManager.h
+unistd.h
 -
 

@@ -518,7 +518,7 @@ int main() {
         else {
             while (true) {
                 cmd.clear();
-                if (userManager.getAuthority()) std::cout << '\n' << blue blank "*当前用户："+userManager.getNowUser().name+", " << " 当前的账户状态：";
+                if (userManager.getAuthority()) std::cout << '\n' << blue blank "当前用户："+userManager.getNowUser().name+", " << " 当前的账户状态：";
                 else putchar('\n'), std::cout << blue blank << "当前的账户状态：未登录";
                 if (userManager.getAuthority() == 7) {
                     int ope = -1;
